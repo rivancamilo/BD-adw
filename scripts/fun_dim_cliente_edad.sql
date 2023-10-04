@@ -9,7 +9,7 @@ BEGIN
     DECLARE categoria VARCHAR(50);
     DECLARE fecha_nacimiento DATE;
     
-    IF infecha_nacimiento IS NOT NULL and infecha_nacimiento <>'' THEN
+    IF infecha_nacimiento IS NOT NULL and infecha_nacimiento <> '' and infecha_nacimiento <> ' ' THEN
         -- convertimos de string a date
         SET fecha_nacimiento = STR_TO_DATE(infecha_nacimiento, '%Y-%m-%d');
 
