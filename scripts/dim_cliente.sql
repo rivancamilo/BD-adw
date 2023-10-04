@@ -1,5 +1,5 @@
 -- creamos la funcion para calcular el rango de la edad
-source ./scripts/fun_dim_cliente_edad.sql
+-- source ./scripts/fun_dim_cliente_edad.sql
 
 create table dim_cliente as
 SELECT
@@ -16,24 +16,24 @@ sc.CustomerID
 ,(case 
     when ExtractValue(p.Demographics, '/IndividualSurvey/HomeOwnerFlag') = 1 then 'Si'
     else 'NO' end) as casaPropia
--- ,STR_TO_DATE(SUBSTR(ExtractValue(p.Demographics, '/IndividualSurvey/DateFirstPurchase'),1,10), '%Y-%m-%d') as datePrimeraCompra
--- ,(YEAR(DATE(CONVERT_TZ(CURDATE(), 'UTC', 'America/Bogota')))-YEAR(STR_TO_DATE(SUBSTR(ExtractValue(p.Demographics, '/IndividualSurvey/BirthDate'),1,10), '%Y-%m-%d'))) as edad
+,adw.validDate(SUBSTR(ExtractValue(p.Demographics, '/IndividualSurvey/DateFirstPurchase'),1,10)) as datePrimeraCompra
+,(YEAR(DATE(CONVERT_TZ(CURDATE(), 'UTC', 'America/Bogota')))-YEAR(adw.validDate(SUBSTR(ExtractValue(p.Demographics, '/IndividualSurvey/BirthDate'),1,10)))) as edad
 ,adw.CalcularEdad(SUBSTR(ExtractValue(p.Demographics, '/IndividualSurvey/BirthDate'),1,10),DATE(CONVERT_TZ(CURDATE(), 'UTC', 'America/Bogota'))) as rangoEdad
 ,t.Group AS continente
 ,cr.Name as pais
 ,s.Name as estado
-,a.City as ciudad
 FROM Sales_Customer sc
 INNER JOIN Person_Person p
     ON sc.PersonID = p.BusinessEntityID
-INNER JOIN Sales_SalesTerritory t
+LEFT JOIN Sales_SalesTerritory t
     ON sc.TerritoryID = t.TerritoryID
-INNER JOIN  Person_CountryRegion cr
+LEFT JOIN  Person_CountryRegion cr
 	ON t.CountryRegionCode = cr.CountryRegionCode
 INNER JOIN  Person_StateProvince s
     ON sc.TerritoryID = s.TerritoryID
-INNER JOIN  Person_Address a
-    ON s.StateProvinceID = a.StateProvinceID;
+
+
+
 
 
 

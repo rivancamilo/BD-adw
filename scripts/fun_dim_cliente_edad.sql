@@ -35,3 +35,22 @@ BEGIN
 END;
 //
 DELIMITER ;
+
+
+
+DELIMITER //
+CREATE FUNCTION adw.validDate(in_fecha VARCHAR(50))
+RETURNS DATE
+DETERMINISTIC
+NO SQL
+READS SQL DATA
+BEGIN
+    
+    IF in_fecha IS NOT NULL OR in_fecha = '' OR in_fecha = ' ' THEN
+        RETURN STR_TO_DATE('1900-01-01', '%Y-%m-%d');
+    ELSE
+        RETURN STR_TO_DATE(in_fecha, '%Y-%m-%d');
+    END IF;
+END;
+//
+DELIMITER ;
