@@ -1,5 +1,5 @@
 DELIMITER //
-CREATE FUNCTION adw.CalcularEdad(infecha_nacimiento VARCHAR(50), fecha_referencia DATE)
+CREATE FUNCTION datawh.CalcularEdad(infecha_nacimiento VARCHAR(50), fecha_referencia DATE)
 RETURNS VARCHAR(50)
 DETERMINISTIC
 NO SQL
@@ -39,7 +39,7 @@ DELIMITER ;
 
 
 DELIMITER //
-CREATE FUNCTION adw.validDate(in_fecha VARCHAR(50))
+CREATE FUNCTION datawh.validDate(in_fecha VARCHAR(50))
 RETURNS DATE
 DETERMINISTIC
 NO SQL
