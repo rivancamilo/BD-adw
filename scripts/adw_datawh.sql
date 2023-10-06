@@ -79,3 +79,45 @@ CREATE TABLE IF NOT EXISTS datawh.Dim_Cliente (
 
 
 
+-- -----------------------------------------------------
+-- Table FacVentaOnline
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS datawh.FacVentaOnline (
+  ventasOnlineKey INT NOT NULL AUTO_INCREMENT,
+  subTotalVenta DECIMAL(38,2) NOT NULL,
+  totalImpuestos DECIMAL(38,2) NOT NULL,
+  totalEnvio DECIMAL(38,2) NOT NULL,
+  totalVenta DECIMAL(38,2) NOT NULL,
+  totalDescuento DECIMAL(38,2) NOT NULL,
+  cantidad INT NOT NULL,
+  estadoVenta INT NULL,
+  clienteKey INT NULL,
+  productoKey INT NULL,
+  ubicacionKey INT NULL,
+  dateKey INT NULL,
+  PRIMARY KEY (ventasOnlineKey),
+  INDEX dimProducto_idx (productoKey ASC) VISIBLE,
+  INDEX dimUbicacion_idx (ubicacionKey ASC) VISIBLE,
+  INDEX dimTiempo_idx (dateKey ASC) VISIBLE,
+  INDEX dimCliente_idx (clienteKey ASC) VISIBLE,
+  CONSTRAINT dimProducto
+    FOREIGN KEY (productoKey)
+    REFERENCES Dim_Producto (productoKey)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT dimUbicacion
+    FOREIGN KEY (ubicacionKey)
+    REFERENCES Dim_Ubicacion (ubicacionKey)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT dimTiempo
+    FOREIGN KEY (dateKey)
+    REFERENCES Dim_Tiempo (dateKey)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT dimCliente
+    FOREIGN KEY (clienteKey)
+    REFERENCES Dim_Cliente (clienteKey)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+)AUTO_INCREMENT = 3333;
